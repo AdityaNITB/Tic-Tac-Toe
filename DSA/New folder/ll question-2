@@ -1,0 +1,103 @@
+#include <bits/stdc++.h>
+#define int long long
+using namespace std;
+class node{
+  public:
+  int data;
+  node*next;
+  node*back;
+  node(int data,node*next,node*back) {
+    this->data=data;
+    this->next=next;
+    this->back=back;
+  }
+  node(int data) {
+    this->data=data;
+    next=nullptr;
+    back=nullptr;
+  }
+  node(int data, node*next) {
+    this->data=data;
+    this->next=next;
+  }
+};
+node*convertarrtoll(vector<int> &arr) {
+  node*head=new node(arr[0]);
+  node*mover=head;
+  for(int i=1; i<arr.size(); i++) {
+    node*temp=new node(arr[i]);
+    mover->next=temp;
+    mover=temp;
+  }
+  return head;
+}
+node*reversell(node*head) {
+    node*temp=head;
+    node*prev=NULL;
+    while(temp!=NULL) {
+        node*front=temp->next;
+        temp->next=prev;
+        prev=temp;
+        temp=front;
+    }
+    return prev; 
+}
+node*getkthnode(node*temp, int k) {
+    k-=1;
+    while(temp!=NULL && k>0) {
+        k--;
+        temp=temp->next;
+    }
+    return temp;
+}
+node*kreverse(node*head, int k) {
+    node*temp=head;
+    node*prevlast=NULL;
+    while(temp!=NULL) {
+        node*kthnode=getkthnode(temp,k);
+        if(kthnode==NULL) {
+            if(prevlast!=NULL) {
+            prevlast->next=temp;
+            }
+            break;
+        }
+        else {
+           node*nextnode=kthnode->next;
+           kthnode->next=NULL;
+           reversell(temp);
+           if(temp==head) {
+            head=kthnode;
+           }
+           else {
+            prevlast->next=kthnode;
+           }
+           prevlast=temp;
+           temp=nextnode;
+        }
+    }
+    return head;
+}
+void printll(node*head) {
+  while(head!=NULL) {
+    cout << head->data << " ";
+    head=head->next;
+  }
+  }
+  signed main() {
+    int n;
+    cin >> n;
+    vector<int> arr;
+    for(int i=0; i<n; i++) {
+      int x;
+      cin >> x;
+      arr.push_back(x);
+    }
+    node*head=convertarrtoll(arr);
+    // head=loop(head);
+    //palindrome(head);
+    //loop(head);
+    //int x=length(head);
+    //cout << x << endl;
+    //printll(head);
+  return 0;
+}
